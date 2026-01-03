@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, Helvetica, sans-serif; }
+
+        /* Background video */
+        video{
+            width: 100vw;
+            height: 100dvh;
+            object-fit: cover;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none; /* permite interactuar con el header */
+        }
+
+        /* Page main area */
+        main{
+            height: 300dvh;
+            padding-top: 260px; /* espacio para la esfera desplegada */
+        }
+
+        /* Header como esfera centrada que baja */
+        header{ position: fixed; top: 0; left: 0; width: 100%; pointer-events: none; z-index: 6; }
+
+        .sphere{
+            pointer-events: auto; /* permitir interacción dentro de la esfera */
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), rgba(0,0,0,0.72));
+            border: 3px solid rgba(255,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+            margin: 0 auto;
+            position: relative;
+            left: 50%;
+            transform: translate(-50%, -300%);
+            animation: sphereDrop 0.9s cubic-bezier(.22,.9,.14,1) 0.1s forwards;
+            transform-origin: top center;
+        }
+
+        @keyframes sphereDrop{
+            0%{ transform: translate(-50%, -300%) scale(0.8); opacity: 0 }
+            60%{ transform: translate(-50%, 12px) scale(1.02); opacity: 1 }
+            100%{ transform: translate(-50%, 0) scale(1); opacity: 1 }
+        }
+
+        .sphere .logo img{ height: 88px; width: auto; display: block; }
+
+        /* Hamburger dentro de la esfera */
+        .hamburger-wrapper{ position: relative; }
+        .hamburger-input{ position: absolute; left: -9999px; }
+
+        .hamburger-label{
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
+            padding: 8px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .hamburger-label span{ display: block; width: 20px; height: 2px; background: #ff0000; }
+
+        .hamburger-menu{
+            display: none;
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: #000;
+            border: 2px solid #ff0000;
+            border-radius: 6px;
+            list-style: none;
+            padding: 6px 0;
+            min-width: 160px;
+            z-index: 8;
+        }
+        .hamburger-menu li a{ display: block; color: #ff4d4d; padding: 8px 12px; text-decoration: none; }
+        .hamburger-menu li a:hover{ background: rgba(255,0,0,0.06); }
+
+        /* mostrar menú cuando el checkbox esté checado */
+        #menu-toggle:checked + .hamburger-label + .hamburger-menu{ display: block; }
+
+        /* small responsive tweak */
+        @media (max-width:420px){ header img{ height:48px } }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <div class="sphere" role="banner" aria-label="Header esfera">
+            <div class="logo">
+                <img src="{% static 'Star Wars - Empire logo.jpg' %}" alt="Star Wars Logo">
+            </div>
+
+            <div class="hamburger-wrapper">
+                <input id="menu-toggle" class="hamburger-input" type="checkbox" aria-hidden="true" />
+                <label for="menu-toggle" class="hamburger-label" aria-label="Abrir menú">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+
+                <ul class="hamburger-menu" role="menu" aria-hidden="true">
+                    <li><a href="/people/">Personajes</a></li>
+                    <li><a href="/films/">Películas</a></li>
+                    <li><a href="/planets/">Planetas</a></li>
+                    <li><a href="/species/">Especies</a></li>
+                    <li><a href="/starships/">Naves</a></li>
+                    <li><a href="/vehicles/">Vehículos</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <video autoplay muted loop playsinline>
+        <source src="{% static 'video.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- contenido de la página (de ejemplo) -->
+    <section style="padding:2rem; color:#fff;">
+        <h1>Bienvenido</h1>
+        <p>Contenido de ejemplo para probar scroll y sincronización con el vídeo.</p>
+    </section>
+
+</main>
+
+<script>
+    // Cerrar menú al hacer clic fuera (mejora UX)
+    document.addEventListener('click', (e)=>{
+        const wrapper = document.querySelector('.hamburger-wrapper');
+        const input = document.getElementById('menu-toggle');
+        if(!wrapper || !input) return;
+        if(e.target.closest('.hamburger-wrapper')) return; // clic dentro
+        input.checked = false; // cerrar
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Star Wars API{% endblock %}
+{% block content %}
+  <h1>Star Wars API — Person</h1>
+  {% if data.error %}
+    <p><strong>Error:</strong> {{ data.error }}</p>
+  {% else %}
+    <ul style="list-style:none;padding:0">
+      <li><strong>Name:</strong> {{ data.name }}</li>
+      <li><strong>Height:</strong> {{ data.height }}</li>
+      <li><strong>Mass:</strong> {{ data.mass }}</li>
+      <li><strong>Hair color:</strong> {{ data.hair_color }}</li>
+      <li><strong>Skin color:</strong> {{ data.skin_color }}</li>
+      <li><strong>Eye color:</strong> {{ data.eye_color }}</li>
+      <li><strong>Birth year:</strong> {{ data.birth_year }}</li>
+      <li><strong>Gender:</strong> {{ data.gender }}</li>
+    </ul>
+  {% endif %}
+  <p><a href="/">Volver al inicio</a></p>
+{% endblock %}

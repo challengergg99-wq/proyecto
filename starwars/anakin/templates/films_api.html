@@ -1,0 +1,23 @@
+{extends "base.html" %}
+{% load static %}
+{% block title %}Star Wars Films{% endblock %}
+{% block content %}
+  <h1>Star Wars Films</h1>
+  {% if films %}
+    <ul style="list-style:none;padding:0">
+      {% for film in films %}
+        <li>
+          <strong>Title:</strong> {{ film.title }}<br>
+          <strong>Episode ID:</strong> {{ film.episode_id }}<br>
+          <strong>Director:</strong> {{ film.director }}<br>
+          <strong>Producer:</strong> {{ film.producer }}<br>
+          <strong>Release Date:</strong> {{ film.release_date }}<br>
+        </li>
+        <hr>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No films available.</p>
+  {% endif %}
+  <p><a href="/">Volver al inicio</a></p>
+{% endblock %}

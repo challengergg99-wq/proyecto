@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/" style="color: #ffd54f;">Starwars</a>
+    <button class="navbar-toggler" type="button"data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/api/starwars/">API</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/people/">Personajes</a></li>
+            <li><a class="dropdown-item" href="/films/">Películas</a></li>
+            <li><a class="dropdown-item" href="/planets/">Planetas</a></li>
+            <li><a class="dropdown-item" href="/species/">Especies</a></li>
+            <li><a class="dropdown-item" href="/starships/">Naves</a></li>
+            <li><a class="dropdown-item" href="/vehicles/">Vehículos</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" name="q" value="{{ request.GET.q }}" type="search" placeholder="Search" aria-label="Search"/>
+        <button class="btn btn-outline-success me-2" type="submit">Search</button>
+        {# Pagination controls: shown when list view provides `next` or `previous` in context #}
+        {% if next or previous %}
+          <div class="btn-group" role="group" aria-label="Pagination">
+            {% if previous %}
+              <a class="btn btn-sm btn-outline-light" href="?page={{ page|default:1|add:-1 }}{% if q %}&q={{ q }}{% elif request.GET.q %}&q={{ request.GET.q }}{% endif %}">Anterior</a>
+            {% else %}
+              <button class="btn btn-sm btn-outline-light disabled" disabled>Anterior</button>
+            {% endif %}
+
+            {% if next %}
+              <a class="btn btn-sm btn-outline-light" href="?page={{ page|default:1|add:1 }}{% if q %}&q={{ q }}{% elif request.GET.q %}&q={{ request.GET.q }}{% endif %}">Siguiente</a>
+            {% else %}
+              <button class="btn btn-sm btn-outline-light disabled" disabled>Siguiente</button>
+            {% endif %}
+          </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+</nav>

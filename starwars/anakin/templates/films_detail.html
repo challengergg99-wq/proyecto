@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Detalle{% endblock %}
+{% block content %}
+  {% if detail.error %}
+    <div class="alert alert-danger">Error: {{ detail.error }}</div>
+  {% else %}
+    {% if detail.image %}
+      <img src="{{ detail.image }}" alt="{{ detail.name }}" style="width:200px;height:200px;object-fit:cover;border-radius:8px;display:block;margin-bottom:1rem;" onerror="this.onerror=null;this.src='https://via.placeholder.com/200x200?text=No+Image'">
+    {% endif %}
+    <h2>{{ detail.title }}</h2>
+    <ul class="list-group mb-3">
+      <li class="list-group-item bg-dark text-white"><strong>Título:</strong> {{ detail.title }}</li>
+      <li class="list-group-item bg-dark text-white"><strong>Director:</strong> {{ detail.director }}</li>
+      <li class="list-group-item bg-dark text-white"><strong>Productor:</strong> {{ detail.producer }}</li>
+      <li class="list-group-item bg-dark text-white"><strong>Año de lanzamiento:</strong> {{ detail.release_date }}</li>
+    </ul>
+    <a href="{% url 'films_list' %}" class="btn btn-outline-light">Volver al listado</a>
+  {% endif %}
+{% endblock %}
